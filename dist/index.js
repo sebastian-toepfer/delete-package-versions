@@ -16121,6 +16121,10 @@ const query = `
         edges {
           node {
             name
+            latestVersion {
+              id
+              version
+            }
             versions(last: $last) {
               edges {
                 node {
@@ -16161,7 +16165,9 @@ function getOldestVersions(owner, repo, packageName, numVersions, token) {
         if (versions.length !== numVersions) {
             console.log(`number of versions requested was: ${numVersions}, but found: ${versions.length}`);
         }
+        const latestVersion = result.repository.packages.edges[0].node.latestVersion;
         return versions
+            .filter(value => value.node.id !== latestVersion.id)
             .map(value => ({ id: value.node.id, version: value.node.version }))
             .reverse();
     }));
