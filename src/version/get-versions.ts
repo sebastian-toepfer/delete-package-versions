@@ -14,6 +14,7 @@ export interface GetVersionsQueryResponse {
       edges: {
         node: {
           name: string
+          latestVersion: VersionInfo
           versions: {
             edges: {node: VersionInfo}[]
           }
@@ -30,6 +31,10 @@ const query = `
         edges {
           node {
             name
+            latestVersion {
+              id
+              version
+            }
             versions(last: $last) {
               edges {
                 node {
@@ -103,7 +108,11 @@ export function getOldestVersions(
         )
       }
 
+      const latestVersion =
+        result.repository.packages.edges[0].node.latestVersion
+
       return versions
+        .filter(value => value.node.id !== latestVersion.id)
         .map(value => ({id: value.node.id, version: value.node.version}))
         .reverse()
     })
