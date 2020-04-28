@@ -20,7 +20,7 @@ export function getMockedOldestQueryResponse(
 ): GetVersionsQueryResponse {
   const versions = []
 
-  for (let i = 1; i <= numVersions; ++i) {
+  for (let i = 1; i <= numVersions + 1; ++i) {
     versions.push({
       node: {
         id: i.toString(),
@@ -36,6 +36,7 @@ export function getMockedOldestQueryResponse(
           {
             node: {
               name: 'test',
+              latestVersion: versions.reverse()[0].node,
               versions: {
                 edges: versions.reverse()
               }
