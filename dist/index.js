@@ -6019,6 +6019,7 @@ function getActionInput() {
         repo: core_1.getInput('repo') ? core_1.getInput('repo') : github_1.context.repo.repo,
         packageName: core_1.getInput('package-name'),
         numOldVersionsToDelete: Number(core_1.getInput('num-old-versions-to-delete')),
+        searchRange: Number(core_1.getInput('search-range')),
         token: core_1.getInput('token'),
         dryRun: Boolean(core_1.getInput('dry-run'))
     });
@@ -13915,6 +13916,7 @@ const defaultParams = {
     repo: '',
     packageName: '',
     numOldVersionsToDelete: 0,
+    searchRange: 0,
     token: '',
     dryRun: false
 };
@@ -13927,6 +13929,10 @@ class Input {
         this.repo = validatedParams.repo;
         this.packageName = validatedParams.packageName;
         this.numOldVersionsToDelete = validatedParams.numOldVersionsToDelete;
+        this.searchRange =
+            validatedParams.searchRange === 0
+                ? validatedParams.numOldVersionsToDelete
+                : validatedParams.searchRange;
         this.token = validatedParams.token;
         this.dryRun = validatedParams.dryRun;
     }
@@ -15771,9 +15777,10 @@ function getVersionIds(input) {
         return rxjs_1.of(input.packageVersionIds);
     }
     if (input.hasOldestVersionQueryInfo()) {
-        return version_1.getOldestVersions(input.owner, input.repo, input.packageName, input.numOldVersionsToDelete, input.token).pipe(operators_1.map(versionInfo => versionInfo
+        return version_1.getOldestVersions(input.owner, input.repo, input.packageName, input.searchRange, input.token).pipe(operators_1.map(versionInfo => versionInfo
             .filter(info => !input.ignoredVersions.test(info.version))
-            .map(info => info.id)));
+            .map(info => info.id)
+            .slice(-input.numOldVersionsToDelete)));
     }
     return rxjs_1.throwError("Could not get packageVersionIds. Explicitly specify using the 'package-version-ids' input or provide the 'package-name' and 'num-old-versions-to-delete' inputs to dynamically retrieve oldest versions");
 }
