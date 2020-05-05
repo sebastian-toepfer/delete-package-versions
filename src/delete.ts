@@ -20,7 +20,7 @@ export function getVersionIds(input: Input): Observable<string[]> {
         versionInfo
           .filter(info => !input.ignoredVersions.test(info.version))
           .map(info => info.id)
-          .slice(-input.numOldVersionsToDelete)
+          .slice(input.numOldVersionsToDelete)
       )
     )
   }
