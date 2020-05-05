@@ -15780,7 +15780,7 @@ function getVersionIds(input) {
         return version_1.getOldestVersions(input.owner, input.repo, input.packageName, input.searchRange, input.token).pipe(operators_1.map(versionInfo => versionInfo
             .filter(info => !input.ignoredVersions.test(info.version))
             .map(info => info.id)
-            .slice(-input.numOldVersionsToDelete)));
+            .slice(input.numOldVersionsToDelete)));
     }
     return rxjs_1.throwError("Could not get packageVersionIds. Explicitly specify using the 'package-version-ids' input or provide the 'package-name' and 'num-old-versions-to-delete' inputs to dynamically retrieve oldest versions");
 }
