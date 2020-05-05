@@ -42,6 +42,12 @@ inputs:
     required: false
     default: "1"
 
+  search-range:
+    description: >
+      Number of old versions to query for to build the old version list.
+      Defaults to the value of num-old-versions-to-delete.
+    required: false
+
   token:
     description: >
       Token with the necessary scopes to delete package versions.

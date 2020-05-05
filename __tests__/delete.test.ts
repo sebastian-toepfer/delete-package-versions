@@ -24,6 +24,30 @@ describe.skip('index tests -- call graphql', () => {
     )
   })
 
+  it('getVersionIds test -- get 3, delete 1 oldest versions', done => {
+    const searchRange = 3
+    const numVersions = 1
+
+    getVersionIds(
+      getInput({numOldVersionsToDelete: numVersions, searchRange})
+    ).subscribe(ids => {
+      expect(ids.length).toBe(numVersions)
+      done()
+    })
+  })
+
+  it('getVersionIds test -- get 3, delete 5 oldest versions', done => {
+    const searchRange = 3
+    const numVersions = 5
+
+    getVersionIds(
+      getInput({numOldVersionsToDelete: numVersions, searchRange})
+    ).subscribe(ids => {
+      expect(ids.length).toBe(searchRange)
+      done()
+    })
+  })
+
   it('getVersionIds test -- supplied package version id', done => {
     const suppliedIds = [
       'AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA',
@@ -89,6 +113,7 @@ const defaultInput: InputParams = {
   repo: 'actions-testing',
   packageName: 'com.github.trent-j.actions-test',
   numOldVersionsToDelete: 1,
+  searchRange: 1,
   token: process.env.GITHUB_TOKEN as string,
   dryRun: false
 }

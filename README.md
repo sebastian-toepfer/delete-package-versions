@@ -46,6 +46,10 @@ This action deletes versions of a package from [GitHub Packages](https://github.
   # Defaults to 1.
   num-old-versions-to-delete:
 
+  # The number of old versions to query for to build the list of old versions.
+  # Defaults to the value of num-old-versions-to-delete
+  search-range:
+
   # The token used to authenticate with GitHub Packages.
   # Defaults to github.token.
   # Required if deleting a version from a package hosted in a different repo than the one executing the workflow.

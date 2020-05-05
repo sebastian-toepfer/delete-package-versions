@@ -15,6 +15,7 @@ function getActionInput(): Input {
     repo: getInput('repo') ? getInput('repo') : context.repo.repo,
     packageName: getInput('package-name'),
     numOldVersionsToDelete: Number(getInput('num-old-versions-to-delete')),
+    searchRange: Number(getInput('search-range')),
     token: getInput('token'),
     dryRun: Boolean(getInput('dry-run'))
   })
