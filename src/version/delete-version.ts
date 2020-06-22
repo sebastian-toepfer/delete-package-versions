@@ -1,7 +1,7 @@
 import {from, Observable, merge, throwError, of} from 'rxjs'
-import {graphql} from '@octokit/graphql'
 import {catchError, map, tap} from 'rxjs/operators'
 import {GraphQlQueryResponse} from '@octokit/graphql/dist-types/types'
+import {graphql} from './graphql'
 
 export interface DeletePackageVersionMutationResponse {
   deletePackageVersion: {
@@ -25,10 +25,9 @@ export function deletePackageVersion(
     return of(true)
   }
   return from(
-    graphql(mutation, {
+    graphql(token, mutation, {
       packageVersionId,
       headers: {
-        authorization: `token ${token}`,
         Accept: 'application/vnd.github.package-deletes-preview+json'
       }
     }) as Promise<DeletePackageVersionMutationResponse>
